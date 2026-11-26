@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is used to capture photos for your geotagged diary.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access lets you pick existing pictures for your diary.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is attached to each diary entry as a geotag.</string>
 </dict>
 </plist>

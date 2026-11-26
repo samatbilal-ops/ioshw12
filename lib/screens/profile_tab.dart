@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../lw12/auth/auth_cubit.dart';
 import '../lw12/screens/login_screen.dart';
+import '../lw13/screens/photo_diary_screen.dart';
 import '../providers/cart_provider.dart';
 
 /// Tab 3: profile / settings (name comes from the registration form).
@@ -107,6 +108,19 @@ class _ProfileTabState extends State<ProfileTab> {
                 MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
               );
             },
+          ),
+        ),
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.photo_camera_back_outlined),
+            title: const Text('LW13: Photo Diary'),
+            subtitle: const Text('Camera + gallery + GPS geotagging'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const PhotoDiaryScreen(),
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 12),
