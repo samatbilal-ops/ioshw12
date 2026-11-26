@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -135,22 +134,6 @@ class _PhotoDiaryScreenState extends State<PhotoDiaryScreen> {
     return false;
   }
 
-  /// Copies the picked file from the temporary cache into the app documents
-  /// folder, so the photo is still there after a restart.
-  Future<String> _persistPhoto(XFile picked) async {
-    if (kIsWeb) return picked.path;
-    final docs = await getApplicationDocumentsDirectory();
-    final folder = Directory('${docs.path}/diary_photos');
-    if (!await folder.exists()) await folder.create(recursive: true);
-
-    final name = picked.name;
-    final ext = name.contains('.') ? name.split('.').last : 'jpg';
-    final dest =
-        '${folder.path}/${DateTime.now().millisecondsSinceEpoch}.$ext';
-    await File(picked.path).copy(dest);
-    return dest;
-  }
-
   Future<void> _pickPhoto(ImageSource source) async {
     if (_loadingPhoto) return;
     if (source == ImageSource.camera && !await _ensureCameraPermission()) {
@@ -166,7 +149,9 @@ class _PhotoDiaryScreenState extends State<PhotoDiaryScreen> {
         maxWidth: 1080, // downscale big camera photos
       );
       if (picked != null) {
-        final stored = await _persistPhoto(picked);
+        // image_picker already stored the (compressed) photo as a file;
+        // we keep its path in the diary entry.
+        final stored = picked.path;
         if (!mounted) return;
         setState(() {
           _photoPath = stored;
